@@ -1,0 +1,129 @@
+# Reproducible Research: Peer Assessment 1
+========================================================
+## Loading and preprocessing the data
+
+Read in file - activity monitoring data file from assignment page
+```{r,echo=TRUE}
+activity<-read.csv("activity.csv")
+```
+
+
+## What is mean total number of steps taken per day?
+This is a calculation of the mean total steps taken during each day
+
+```{r,echo=TRUE}
+meanstepsday<-tapply(activity$steps,activity$date, mean)
+meanstepsday
+```
+
+This is a histogram showing the mean steps taken each day
+```{r,echo=TRUE}
+ hist(meanstepsday, main="Mean Total Steps per Day", xlab="Mean Steps")
+```
+
+This is a calculation of the median steps taken each day
+```{r, echo=TRUE}
+medianstepsday<-tapply(activity$steps,activity$date, median)
+medianstepsday
+```
+
+## What is the average daily activity pattern?
+
+This is a calculation of of the average number of steps per 5 minute interval
+```{r, echo=TRUE}
+meanstepsinterval<-tapply(activity$interval, activity$steps,mean)
+meanstepsinterval
+plot(meanstepsinterval, type="l",main="Average Steps per Interval",ylab="Mean Steps per Interval", xlab="5 Minute Intervals")
+```
+
+Calculate maximum steps in an interval
+```{r, echo=TRUE}
+maxstepsinterval<-tapply(activity$interval, activity$steps,max)
+max(maxstepsinterval)
+```
+
+
+## Imputing missing values
+Calculate number of missing values - shown in this summary as the number of NA's
+```{r,echo=TRUE}
+summary(activity)
+```
+
+To replace NA's in the data I did the following:
+I calculated the mean of "non NA steps" in the data
+```{r,echo=TRUE}
+meansteps<-mean(activity$steps, na.rm=TRUE)
+meansteps
+```
+
+Create new data file and replace NA values with mean of steps to fill in missing data
+Show sample of 500 with NA changed to 37.38
+```{r,echo=TRUE}
+activity2 <- activity
+activity2[is.na(activity2 <- activity)] <- meansteps
+head(activity2[200:700,],500)
+```
+
+Calculate mean and median for filled in data file 
+```{r,echo=TRUE}
+newmeanstepsday<-tapply(activity2$steps,activity2$date, mean)
+newmeanstepsday
+```
+
+This is a histogram showing the mean steps taken each day for the filled in data file
+```{r,echo=TRUE}
+ hist(newmeanstepsday, main="Mean Total Steps per Day Filled In Data File", xlab="Mean Steps")
+```
+
+This is a calculation of the median steps taken each day in the filled in data file
+```{r, echo=TRUE}
+newmedianstepsday<-tapply(activity2$steps,activity2$date, median)
+newmedianstepsday
+```
+
+These values do differ from the earlier part of the assignment with the missing data.
+
+The median shows values where there were none when values were missing.
+
+The mean values for the filled in data file are greater in frequency than with the missing data file but the contour of the histogram is similar.
+
+
+## Are there differences in activity patterns between weekdays and weekends?
+Find the weekday name for each date and add to datafile
+```{r,echo=TRUE}
+weekdays<-weekdays(as.Date(activity2$date,'%m/%d/%Y'))
+activity2days<-cbind(activity2,weekdays)
+```
+
+calculate mean steps per interval per day
+```{r, echo=TRUE}
+dailymeansteps<-tapply(activity2days$steps, activity2days$weekdays, mean)
+dailymeansteps
+```
+Load timeDate package
+Calculate Weekend indicator
+Add as column "weekend" to activity2days
+```{r,echo=TRUE}
+library("timeDate")
+weekend<-isWeekend(as.Date(activity2$date,'%m/%d/%Y'))
+activity2days<-cbind(activity2days,weekend)
+activity2days[1425:1450,]
+```
+
+Calculate mean steps per day
+Plot for weekend vs weekdays
+```{r,echo=TRUE}
+library(ggplot2)
+ g<-qplot(activity2days$date, activity2days$steps, data=activity2days, color=weekend, facets=weekend~.,xlab=("Day"),ylab=("Steps"), main=("Steps per Day  Weekend vs Weekdays"))+geom_line()
+g
+```
+
+
+ 
+
+
+ 
+   
+
+
+
