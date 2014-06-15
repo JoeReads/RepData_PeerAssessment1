@@ -21,6 +21,13 @@ This is a histogram showing the mean steps taken each day
  hist(meanstepsday, main="Mean Total Steps per Day", xlab="Mean Steps")
 ```
 
+This is a calculation of the total steps per day with a histogram showing the frequency of Total step counts per day
+```{r, echo=TRUE}
+totalstepsday<-tapply(activity$steps,activity$date, sum)
+hist(totalstepsday, main="Total Steps per Day", xlab="Total Steps")
+```
+
+
 This is a calculation of the median steps taken each day
 ```{r, echo=TRUE}
 medianstepsday<-tapply(activity$steps,activity$date, median)

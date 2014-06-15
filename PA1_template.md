@@ -51,6 +51,16 @@ This is a histogram showing the mean steps taken each day
 
 ![plot of chunk unnamed-chunk-3](figure/unnamed-chunk-3.png) 
 
+This is a calculation of the total steps per day with a histogram showing the frequency of Total step counts per day
+
+```r
+totalstepsday<-tapply(activity$steps,activity$date, sum)
+hist(totalstepsday, main="Total Steps per Day", xlab="Total Steps")
+```
+
+![plot of chunk unnamed-chunk-4](figure/unnamed-chunk-4.png) 
+
+
 This is a calculation of the median steps taken each day
 
 ```r
@@ -223,7 +233,7 @@ meanstepsinterval
 plot(meanstepsinterval, type="l",main="Average Steps per Interval",ylab="Mean Steps per Interval", xlab="5 Minute Intervals")
 ```
 
-![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-5.png) 
+![plot of chunk unnamed-chunk-6](figure/unnamed-chunk-6.png) 
 
 Calculate maximum steps in an interval
 
@@ -818,7 +828,7 @@ This is a histogram showing the mean steps taken each day for the filled in data
  hist(newmeanstepsday, main="Mean Total Steps per Day Filled In Data File", xlab="Mean Steps")
 ```
 
-![plot of chunk unnamed-chunk-11](figure/unnamed-chunk-11.png) 
+![plot of chunk unnamed-chunk-12](figure/unnamed-chunk-12.png) 
 
 This is a calculation of the median steps taken each day in the filled in data file
 
@@ -935,7 +945,7 @@ library(ggplot2)
 g
 ```
 
-![plot of chunk unnamed-chunk-16](figure/unnamed-chunk-16.png) 
+![plot of chunk unnamed-chunk-17](figure/unnamed-chunk-17.png) 
 
 
  
