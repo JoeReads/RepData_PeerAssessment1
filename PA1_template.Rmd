@@ -34,6 +34,14 @@ medianstepsday<-tapply(activity$steps,activity$date, median)
 medianstepsday
 ```
 
+Calculation of the mean and median for total steps
+```{r,echo=TRUE}
+mean(activity$steps, na.rm=TRUE)
+median(activity$steps, na.rm=TRUE)
+```
+
+
+
 ## What is the average daily activity pattern?
 
 This is a calculation of of the average number of steps per 5 minute interval
@@ -45,10 +53,11 @@ plot(meanstepsinterval, type="l",main="Average Steps per Interval",ylab="Mean St
 
 Calculate maximum steps in an interval
 ```{r, echo=TRUE}
-maxstepsinterval<-tapply(activity$interval, activity$steps,max)
-max(maxstepsinterval)
+stepsperinterval<-tapply(activity$steps, activity$interval,sum, na.rm=T)
+stepsperinterval
+max(stepsperinterval)
 ```
-
+The maximum steps per interval corresponds to interval 835
 
 ## Imputing missing values
 Calculate number of missing values - shown in this summary as the number of NA's
@@ -94,6 +103,11 @@ The median shows values where there were none when values were missing.
 
 The mean values for the filled in data file are greater in frequency than with the missing data file but the contour of the histogram is similar.
 
+Calculation of the mean and median for total steps in the filled in data file
+```{r,echo=TRUE}
+mean(activity2$steps, na.rm=TRUE)
+median(activity2$steps, na.rm=TRUE)
+```
 
 ## Are there differences in activity patterns between weekdays and weekends?
 Find the weekday name for each date and add to datafile

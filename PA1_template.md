@@ -93,6 +93,26 @@ medianstepsday
 ##         NA
 ```
 
+Calculation of the mean and median for total steps
+
+```r
+mean(activity$steps, na.rm=TRUE)
+```
+
+```
+## [1] 37.38
+```
+
+```r
+median(activity$steps, na.rm=TRUE)
+```
+
+```
+## [1] 0
+```
+
+
+
 ## What is the average daily activity pattern?
 
 This is a calculation of of the average number of steps per 5 minute interval
@@ -233,19 +253,74 @@ meanstepsinterval
 plot(meanstepsinterval, type="l",main="Average Steps per Interval",ylab="Mean Steps per Interval", xlab="5 Minute Intervals")
 ```
 
-![plot of chunk unnamed-chunk-6](figure/unnamed-chunk-6.png) 
+![plot of chunk unnamed-chunk-7](figure/unnamed-chunk-7.png) 
 
 Calculate maximum steps in an interval
 
 ```r
-maxstepsinterval<-tapply(activity$interval, activity$steps,max)
-max(maxstepsinterval)
+stepsperinterval<-tapply(activity$steps, activity$interval,sum, na.rm=T)
+stepsperinterval
 ```
 
 ```
-## [1] 2355
+##     0     5    10    15    20    25    30    35    40    45    50    55 
+##    91    18     7     8     4   111    28    46     0    78    16     7 
+##   100   105   110   115   120   125   130   135   140   145   150   155 
+##    17    36     8    18     0    59    97     9     9    20    14     0 
+##   200   205   210   215   220   225   230   235   240   245   250   255 
+##     0     0    60     0     0     7     0    12     0     0    82    50 
+##   300   305   310   315   320   325   330   335   340   345   350   355 
+##     0     0     0     0    11    33    86    31    26     4     0     0 
+##   400   405   410   415   420   425   430   435   440   445   450   455 
+##    63    50   136     0    18    19   218    35   185    44   165    59 
+##   500   505   510   515   520   525   530   535   540   545   550   555 
+##     0    83   159   119   176   157   111   321   849   972  2091  2358 
+##   600   605   610   615   620   625   630   635   640   645   650   655 
+##  1669  2611  2850  3363  2648  2495  2764  2085  2333  2341  1980  2599 
+##   700   705   710   715   720   725   730   735   740   745   750   755 
+##  2322  2352  2677  2889  2646  2702  2951  2349  2770  3686  3066  2976 
+##   800   805   810   815   820   825   830   835   840   845   850   855 
+##  3889  3615  6860  8349  9071  8236  9397 10927 10384  9517  9720  8852 
+##   900   905   910   915   920   925   930   935   940   945   950   955 
+##  7603  6574  5783  5730  5497  5086  3509  2397  1314  2054  1854  1116 
+##  1000  1005  1010  1015  1020  1025  1030  1035  1040  1045  1050  1055 
+##  2150  1430  2248  2791  2063  2692  2347  1983  1839  1502  1330  1693 
+##  1100  1105  1110  1115  1120  1125  1130  1135  1140  1145  1150  1155 
+##  1662  1573  1130  1354  1504  1403  1772  2649  2228  2364  2440  3137 
+##  1200  1205  1210  1215  1220  1225  1230  1235  1240  1245  1250  1255 
+##  3385  4648  5027  4917  3360  2659  2887  1718  1406  2000  2388  3566 
+##  1300  1305  1310  1315  1320  1325  1330  1335  1340  1345  1350  1355 
+##  2244  2114  2293  2172  2451  2991  2266  1332  2118  2838  2508  3223 
+##  1400  1405  1410  1415  1420  1425  1430  1435  1440  1445  1450  1455 
+##  2955  2754  2310  2581  1880  1990  2218  1458   907  1382  2312  2320 
+##  1500  1505  1510  1515  1520  1525  1530  1535  1540  1545  1550  1555 
+##  1591  1912  1881  2059  2436  2531  2551  3462  4394  5229  5412  4450 
+##  1600  1605  1610  1615  1620  1625  1630  1635  1640  1645  1650  1655 
+##  3293  3399  3951  3348  3016  3168  2325  2044  2367  2409  2449  2315 
+##  1700  1705  1710  1715  1720  1725  1730  1735  1740  1745  1750  1755 
+##  2471  2984  2688  3245  3854  4184  3654  3162  3980  2995  1843  1985 
+##  1800  1805  1810  1815  1820  1825  1830  1835  1840  1845  1850  1855 
+##  2156  3075  3959  4522  3141  3592  4118  3935  4523  5271  4589  4537 
+##  1900  1905  1910  1915  1920  1925  1930  1935  1940  1945  1950  1955 
+##  4498  4125  3076  2828  1925  1098  1452  2121  1601  1354  2420  1777 
+##  2000  2005  2010  2015  2020  2025  2030  2035  2040  2045  2050  2055 
+##  1040  1008  1025  1767  1421  1122  1447  1131  1036  1130  1712  1068 
+##  2100  2105  2110  2115  2120  2125  2130  2135  2140  2145  2150  2155 
+##   845   913  1243  1020   660   425   777   864   460   413   431   139 
+##  2200  2205  2210  2215  2220  2225  2230  2235  2240  2245  2250  2255 
+##    77   195   255   451   375   461   517   117    17     6    85   244 
+##  2300  2305  2310  2315  2320  2325  2330  2335  2340  2345  2350  2355 
+##   175   151     0    44    51    84   138   249   175    34    12    57
 ```
 
+```r
+max(stepsperinterval)
+```
+
+```
+## [1] 10927
+```
+The maximum steps per interval corresponds to interval 835
 
 ## Imputing missing values
 Calculate number of missing values - shown in this summary as the number of NA's
@@ -828,7 +903,7 @@ This is a histogram showing the mean steps taken each day for the filled in data
  hist(newmeanstepsday, main="Mean Total Steps per Day Filled In Data File", xlab="Mean Steps")
 ```
 
-![plot of chunk unnamed-chunk-12](figure/unnamed-chunk-12.png) 
+![plot of chunk unnamed-chunk-13](figure/unnamed-chunk-13.png) 
 
 This is a calculation of the median steps taken each day in the filled in data file
 
@@ -868,6 +943,23 @@ The median shows values where there were none when values were missing.
 
 The mean values for the filled in data file are greater in frequency than with the missing data file but the contour of the histogram is similar.
 
+Calculation of the mean and median for total steps in the filled in data file
+
+```r
+mean(activity2$steps, na.rm=TRUE)
+```
+
+```
+## [1] 37.38
+```
+
+```r
+median(activity2$steps, na.rm=TRUE)
+```
+
+```
+## [1] 0
+```
 
 ## Are there differences in activity patterns between weekdays and weekends?
 Find the weekday name for each date and add to datafile
@@ -945,7 +1037,7 @@ library(ggplot2)
 g
 ```
 
-![plot of chunk unnamed-chunk-17](figure/unnamed-chunk-17.png) 
+![plot of chunk unnamed-chunk-19](figure/unnamed-chunk-19.png) 
 
 
  
